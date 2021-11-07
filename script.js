@@ -50,7 +50,7 @@ var promptLowercase = function() {
   if (charLowercase === 'yes') {
     passwordObj.lowercase = true;
   } else if (charLowercase === '') {
-    // Do nothing
+    passwordObj.lowercase = false;
   } else {
     alert("Please enter 'yes' or leave it blank.")
     promptLowercase();
@@ -68,7 +68,7 @@ var promptUppercase = function() {
   if (charUppercase === 'yes') {
     passwordObj.uppercase = true;
   } else if (charUppercase === '') {
-    // Do nothing
+    passwordObj.uppercase = false;
   } else {
     alert("Please enter 'yes' or leave it blank.")
     promptUppercase();
@@ -86,7 +86,7 @@ var promptNum = function() {
   if (charNum === 'yes') {
     passwordObj.numbers = true;
   } else if (charNum === '') {
-    // Do nothing
+    passwordObj.numbers = false;
   } else {
     alert("Please enter 'yes' or leave it blank.")
     promptNum();
@@ -104,7 +104,7 @@ var promptSpecial = function() {
   if (charSpecial === 'yes') {
     passwordObj.special = true;
   } else if (charSpecial === '') {
-    // Do nothing
+    passwordObj.special = false;
   } else {
     alert("Please enter 'yes' or leave it blank.")
     promptSpecial();
@@ -113,21 +113,26 @@ var promptSpecial = function() {
 
 // Prompt for the types of characters required
 var promptCharTypes = function() {
-  promptLowercase();
-  if(cancel) {
-    return;
-  }
-  promptUppercase();
-  if(cancel) {
-    return;
-  }
-  promptNum();
-  if(cancel) {
-    return;
-  }
-  promptSpecial();
-  if(cancel) {
-    return;
+
+  var charSwitch = 0;
+  while (charSwitch < 4) {
+    if(cancel) {
+      charSwitch = 4;
+    } else {
+      if (charSwitch === 0) {
+        promptLowercase();
+        charSwitch++;
+      } else if (charSwitch === 1) {
+        promptUppercase();
+        charSwitch++;
+      } else if (charSwitch === 2) {
+        promptNum();
+        charSwitch++;
+      } else if (charSwitch === 3) {
+        promptSpecial();
+        charSwitch++;
+      }
+    }
   }
 
   // Check whether at least one character type has been selected
@@ -144,12 +149,16 @@ var generatePassword = function() {
   passwordObj.password = '';
 
   setPasswordLength();
+
+  // Exit function if user hits 'cancel' in prompt popup
   if(cancel) {
     cancel = false;
     return '';
   }
   
   promptCharTypes();
+
+  // Exit function if user hits 'cancel' in prompt popup
   if(cancel) {
     cancel = false;
     return '';
