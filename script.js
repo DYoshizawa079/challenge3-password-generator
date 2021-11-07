@@ -141,9 +141,7 @@ var promptCharTypes = function() {
 var generatePassword = function() {
 
   // Reset the password display to blank
-  var passwordDisplay = document.querySelector("#password");
-  passwordDisplay.value = 'test';
-  console.log('passwordDisplay.value ' + passwordDisplay.value);
+  passwordObj.password = '';
 
   setPasswordLength();
   if(cancel) {
@@ -185,6 +183,7 @@ var generatePassword = function() {
       counter++;
     }
   }
+  console.log(passwordObj.password);
   return passwordObj.password;
 
 }
