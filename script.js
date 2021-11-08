@@ -1,5 +1,8 @@
 // Assignment code here
 
+// ============== Set objects and variables ==============
+
+// Object to store password parameters and the finished password
 var passwordObj = {
   numOfChar: 0,
   lowercase: false,
@@ -8,23 +11,23 @@ var passwordObj = {
   special: false,
   password: ''
 };
-var cancel;
 
-// Prompt for password parameters wanted
+// Variable used to record whether the user has cancelled the operation
+var cancel; //If user wants to cancel the operation, the variable will have boolean value of "true".
+
+// ============== Prompt user for password parameters that he wants ==============
 
 // Check for cancellations
 var checkCancellation = function(check) {
   if (check === null) {
     cancel = true;
     alert("You have cancelled the operation. Goodbye!");
-    console.log('cancel ' + cancel);
   }
 }
 
 // Set the number of characters
 var setPasswordLength = function() {
   passwordObj.numOfChar = prompt("How long do you want the password to be (in characters)? Enter a number between 8 and 128.");
-  console.log("passwordObj.numOfChar " + passwordObj.numOfChar);
   if (passwordObj.numOfChar === NaN || passwordObj.numOfChar === null) {
     alert("You have cancelled the operation. Goodbye!");
     cancel = true;
@@ -40,7 +43,7 @@ var setPasswordLength = function() {
 
 // Prompt what kind of characters are wanted
 var promptLowercase = function() {
-  var charLowercase = prompt("Do you want the password to include lowercase characters? Enter 'yes' if you do. Otherwise leave it blank.");
+  var charLowercase = prompt("Would you like the password to include LOWERCASE characters? Enter 'yes' if you do. Otherwise leave it blank and click 'OK'.");
   
   checkCancellation(charLowercase);
   if(cancel) {
@@ -58,12 +61,13 @@ var promptLowercase = function() {
 }
 
 var promptUppercase = function() {
-  var charUppercase = prompt("Do you want the password to include uppercase characters? Enter 'yes' if you do. Otherwise leave it blank.");
+  var charUppercase = prompt("Would you the password to include UPPERCASE characters? Enter 'yes' if you do. Otherwise leave it blank and click 'OK'.");
   
   checkCancellation(charUppercase);
   if(cancel) {
     return;
   }
+
   charUppercase = charUppercase.toLowerCase();
   if (charUppercase === 'yes') {
     passwordObj.uppercase = true;
@@ -76,12 +80,13 @@ var promptUppercase = function() {
 }
 
 var promptNum = function() {
-  var charNum = prompt("Do you want the password to include number characters? Enter 'yes' if you do. Otherwise leave it blank.");
+  var charNum = prompt("Do you want the password to include NUMBERS? Enter 'yes' if you do. Otherwise leave it blank and click 'OK'.");
   
   checkCancellation(charNum);
   if(cancel) {
     return;
   }
+
   charNum = charNum.toLowerCase();
   if (charNum === 'yes') {
     passwordObj.numbers = true;
@@ -94,12 +99,13 @@ var promptNum = function() {
 }
 
 var promptSpecial = function() {
-  var charSpecial = prompt("Do you want the password to include special characters? Enter 'yes' if you do. Otherwise leave it blank.");
+  var charSpecial = prompt("Do you want the password to include SPECIAL CHARACTERS? Enter 'yes' if you do. Otherwise leave it blank and click 'OK'.");
   
   checkCancellation(charSpecial);
   if(cancel) {
     return;
   }
+
   charSpecial = charSpecial.toLowerCase();
   if (charSpecial === 'yes') {
     passwordObj.special = true;
@@ -117,7 +123,7 @@ var promptCharTypes = function() {
   var charSwitch = 0;
   while (charSwitch < 4) {
     if(cancel) {
-      charSwitch = 4;
+      return '';
     } else {
       if (charSwitch === 0) {
         promptLowercase();
@@ -164,8 +170,6 @@ var generatePassword = function() {
     return '';
   }
 
-  console.log(passwordObj);
-
   // The various characters that are available to generate the password
   var lowercaseChar = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
   var uppercaseChar = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
@@ -192,7 +196,6 @@ var generatePassword = function() {
       counter++;
     }
   }
-  console.log(passwordObj.password);
   return passwordObj.password;
 
 }
