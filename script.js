@@ -15,6 +15,16 @@ var passwordObj = {
 // Variable used to record whether the user has cancelled the operation
 var cancel; //If user wants to cancel the operation, the variable will have boolean value of "true".
 
+// The various characters that are available to generate the password
+var charSet = {
+  lowercase: ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"],
+  uppercase: ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"],
+  numbers: [0,1,2,3,4,5,6,7,8,9],
+  special: ['\'','\"','!','#','$','%','&','(',')','+',',','-','*','.','/',':',';','<','>','=','?','\\','@','[',']','^','_','`','{','}','~','|']
+}
+
+
+
 // ============== Prompt user for password parameters that he wants ==============
 
 // Check for cancellations
@@ -43,7 +53,7 @@ var setPasswordLength = function() {
 
 // Prompt what kind of characters are wanted
 var promptLowercase = function() {
-  var charLowercase = prompt("Would you like the password to include LOWERCASE characters? Enter 'yes' if you do. Otherwise leave it blank and click 'OK'.");
+  var charLowercase = prompt("To include LOWERCASE characters, enter 'yes'. Otherwise leave it blank and click 'OK'.");
   
   checkCancellation(charLowercase);
   if(cancel) {
@@ -61,7 +71,7 @@ var promptLowercase = function() {
 }
 
 var promptUppercase = function() {
-  var charUppercase = prompt("Would you the password to include UPPERCASE characters? Enter 'yes' if you do. Otherwise leave it blank and click 'OK'.");
+  var charUppercase = prompt("To include UPPERCASE characters, enter 'yes'. Otherwise leave it blank and click 'OK'.");
   
   checkCancellation(charUppercase);
   if(cancel) {
@@ -80,7 +90,7 @@ var promptUppercase = function() {
 }
 
 var promptNum = function() {
-  var charNum = prompt("Do you want the password to include NUMBERS? Enter 'yes' if you do. Otherwise leave it blank and click 'OK'.");
+  var charNum = prompt("To include NUMBERS, enter 'yes'. Otherwise leave it blank and click 'OK'.");
   
   checkCancellation(charNum);
   if(cancel) {
@@ -99,7 +109,7 @@ var promptNum = function() {
 }
 
 var promptSpecial = function() {
-  var charSpecial = prompt("Do you want the password to include SPECIAL CHARACTERS? Enter 'yes' if you do. Otherwise leave it blank and click 'OK'.");
+  var charSpecial = prompt("To include SPECIAL CHARACTERS, enter 'yes'. Otherwise leave it blank and click 'OK'.");
   
   checkCancellation(charSpecial);
   if(cancel) {
@@ -120,23 +130,23 @@ var promptSpecial = function() {
 // Prompt for the types of characters required
 var promptCharTypes = function() {
 
-  var charSwitch = 0;
-  while (charSwitch < 4) {
+  var counter = 0;
+  while (counter < 4) {
     if(cancel) {
       return '';
     } else {
-      if (charSwitch === 0) {
+      if (counter === 0) {
         promptLowercase();
-        charSwitch++;
-      } else if (charSwitch === 1) {
+        counter++;
+      } else if (counter === 1) {
         promptUppercase();
-        charSwitch++;
-      } else if (charSwitch === 2) {
+        counter++;
+      } else if (counter === 2) {
         promptNum();
-        charSwitch++;
-      } else if (charSwitch === 3) {
+        counter++;
+      } else if (counter === 3) {
         promptSpecial();
-        charSwitch++;
+        counter++;
       }
     }
   }
@@ -148,10 +158,13 @@ var promptCharTypes = function() {
   }
 }
 
-// Generate the password based on criteria and number of characters requested
+
+
+// ============== Generate the password based on criteria and number of characters requested ==============
+
 var generatePassword = function() {
 
-  // Reset the password display to blank
+  // Reset the password display to be blank
   passwordObj.password = '';
 
   setPasswordLength();
@@ -170,29 +183,23 @@ var generatePassword = function() {
     return '';
   }
 
-  // The various characters that are available to generate the password
-  var lowercaseChar = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
-  var uppercaseChar = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
-  var numChar = [0,1,2,3,4,5,6,7,8,9];
-  var specChar = ['\'','\"','!','#','$','%','&','(',')','+',',','-','*','.','/',':',';','<','>','=','?','\\','@','[',']','^','_','`','{','}','~','|'];
-
   // Pick random charactrs from each set of characters requested. Then join them together to form the password.
   var counter = 0;
   while (counter < passwordObj.numOfChar) {
     if(passwordObj.lowercase === true) {
-      passwordObj.password += lowercaseChar[Math.floor(Math.random() * lowercaseChar.length)];
+      passwordObj.password += charSet.lowercase[Math.floor(Math.random() * charSet.lowercase.length)];
       counter++;
     }
     if(passwordObj.uppercase === true) {
-      passwordObj.password += uppercaseChar[Math.floor(Math.random() * uppercaseChar.length)];
+      passwordObj.password += charSet.uppercase[Math.floor(Math.random() * charSet.uppercase.length)];
       counter++;
     }
     if(passwordObj.numbers === true) {
-      passwordObj.password += numChar[Math.floor(Math.random() * numChar.length)];
+      passwordObj.password += charSet.numbers[Math.floor(Math.random() * charSet.numbers.length)];
       counter++;
     }
     if(passwordObj.special === true) {
-      passwordObj.password += specChar[Math.floor(Math.random() * specChar.length)];
+      passwordObj.password += charSet.special[Math.floor(Math.random() * charSet.special.length)];
       counter++;
     }
   }
